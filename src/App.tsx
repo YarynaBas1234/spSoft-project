@@ -1,26 +1,20 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+import { Input, TodoListComponent } from 'components';
+
+const App: React.FC = () => {
+	const [inputValue, setInputValue] = React.useState('');
+
+	const changeInputValue: React.ChangeEventHandler<HTMLInputElement> = e => {
+		setInputValue(e.target.value);
+	};
+
+	return (
+		<div>
+			<Input value={inputValue} onChange={changeInputValue} />
+			<TodoListComponent inputValue={inputValue} setInputValue={setInputValue} />
+		</div>
+	);
+};
 
 export default App;
