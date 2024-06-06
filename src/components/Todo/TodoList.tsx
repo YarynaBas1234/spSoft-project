@@ -2,12 +2,12 @@
 import React from 'react';
 import { IoIosClose } from 'react-icons/io';
 
-import { Button, Checkbox, ButtonIcon } from 'components';
+import { Checkbox, ButtonIcon } from 'components';
 import { ITodo } from 'types';
 
 interface ITodoListProps {
-	inputValue: string;
-	setInputValue: React.Dispatch<React.SetStateAction<string>>;
+	todos: ITodo[];
+	setTodos: React.Dispatch<React.SetStateAction<ITodo[]>>;
 }
 
 interface ITodoItemProps {
@@ -15,37 +15,22 @@ interface ITodoItemProps {
 	isChecked: boolean;
 	text: string;
 	toggleTodo: (id: string | number) => void;
+	onDelete: (id: string | number) => void;
 }
 
+const TodoItem: React.FC<ITodoItemProps> = props => {
+	const { id, isChecked, text, toggleTodo, onDelete } = props;
+
+	return (
+		<div className="flex gap-4 items-center">
+			<Checkbox checked={isChecked} label={text} onChange={() => toggleTodo(id)} />
+			<ButtonIcon icon={<IoIosClose color="#EB5028" size={30} />} onClick={() => onDelete(id)} />
+		</div>
+	);
+};
+
 export const TodoListComponent: React.FC<ITodoListProps> = props => {
-	const { inputValue, setInputValue } = props;
-
-	const [todos, setTodos] = React.useState<ITodo[]>([
-		{
-			id: '123',
-			title: 'some title',
-			complete: true,
-		},
-		{
-			id: '1234',
-			title: 'some title2',
-			complete: true,
-		},
-	]);
-
-	const addTodo = () => {
-		if (!inputValue.trim()) return null;
-
-		setTodos([
-			...todos,
-			{
-				id: Date.now(),
-				title: inputValue,
-				complete: false,
-			},
-		]);
-		setInputValue('');
-	};
+	const { todos, setTodos } = props;
 
 	const deleteTodo = (id: string | number) => {
 		setTodos(todos.filter(todo => todo.id !== id));
@@ -62,20 +47,19 @@ export const TodoListComponent: React.FC<ITodoListProps> = props => {
 
 	return (
 		<div>
-			<Button onClick={() => addTodo()}>Add list</Button>
-
-			{todos.map(todo => (
-				<div key={todo.id}>
-					<TodoItem id={todo.id} isChecked={todo.complete} text={todo.title} toggleTodo={toggleTodo} />
-					<ButtonIcon icon={<IoIosClose />} onClick={() => deleteTodo(todo.id)} />
-				</div>
-			))}
+			<div className="mt-5 flex flex-col gap-3">
+				{todos.map(todo => (
+					<div key={todo.id}>
+						<TodoItem
+							id={todo.id}
+							isChecked={todo.complete}
+							text={todo.title}
+							toggleTodo={toggleTodo}
+							onDelete={deleteTodo}
+						/>
+					</div>
+				))}
+			</div>
 		</div>
 	);
-};
-
-const TodoItem: React.FC<ITodoItemProps> = props => {
-	const { id, isChecked, text, toggleTodo } = props;
-
-	return <Checkbox checked={isChecked} label={text} onChange={() => toggleTodo(id)} />;
 };
