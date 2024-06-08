@@ -1,51 +1,20 @@
 import React from 'react';
+import { Routes, Route, Navigate } from 'react-router-dom';
 
-import { Button, Input, TodoListComponent } from 'components';
-import { ITodo } from 'types';
-
-const defaultTodoList = [
-	{
-		id: '123',
-		title: 'some title',
-		complete: true,
-	},
-	{
-		id: '1234',
-		title: 'some title2',
-		complete: true,
-	},
-];
+import { PATH } from 'consts';
+import { Login, Todo } from 'pages';
+import { PrivateRoute } from 'utils';
 
 const App: React.FC = () => {
-	const [inputValue, setInputValue] = React.useState('');
-	const [todos, setTodos] = React.useState<ITodo[]>(defaultTodoList);
-
-	const changeInputValue: React.ChangeEventHandler<HTMLInputElement> = e => {
-		setInputValue(e.target.value);
-	};
-
-	const addTodo = () => {
-		if (!inputValue.trim()) return null;
-
-		setTodos([
-			...todos,
-			{
-				id: Date.now(),
-				title: inputValue,
-				complete: false,
-			},
-		]);
-		setInputValue('');
-	};
-
 	return (
-		<div>
-			<div className="flex gap-4">
-				<Input value={inputValue} onChange={changeInputValue} />
-				<Button onClick={() => addTodo()}>Add list</Button>
-			</div>
-			<TodoListComponent todos={todos} setTodos={setTodos} />
-		</div>
+		<Routes>
+			<Route element={<PrivateRoute />}>
+				<Route path='/' element={<Todo />} /> 
+			</Route>
+
+			<Route path={PATH.LOGIN} element={<Login />} />
+			<Route path="*" element={<Navigate to={PATH.LOGIN} replace />} />
+		</Routes>
 	);
 };
 

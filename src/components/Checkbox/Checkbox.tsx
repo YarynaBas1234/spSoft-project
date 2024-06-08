@@ -1,11 +1,11 @@
-import { ReactNode } from 'react';
+import React from 'react';
 import { twMerge } from 'tailwind-merge';
 import { FaCheck } from "react-icons/fa6";
 
 interface ICheckboxProps
 	extends Omit<React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>, 'type'> {
 	wrapperClassName?: string;
-	label?: ReactNode;
+	label?: React.ReactNode;
 }
 
 export const Checkbox: React.FC<ICheckboxProps> = props => {

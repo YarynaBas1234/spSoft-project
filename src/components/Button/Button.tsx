@@ -9,7 +9,7 @@ export const Button: React.FC<IButtonProps> = props => {
 	return (
 		<button
 			className={twMerge(
-				'bg-comp-blue text-white rounded px-5 py-3 text-[18px] font-semibold',
+				'bg-comp-blue text-white rounded px-5 py-3 text-xl font-semibold w-full',
 				'hover:bg-comp-dark-blue',
 				'disabled:bg-comp-gray',
 				className
