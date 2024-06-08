@@ -11,10 +11,10 @@ interface IInputProps extends React.DetailedHTMLProps<React.InputHTMLAttributes<
 }
 
 export const Input: React.FC<IInputProps> = props => {
-	const { className, wrapperClassName, label, type = 'text', error, errorText, ...restProps } = props;
+	const { className, wrapperClassName, label, type = 'text', error, errorText, disabled, ...restProps } = props;
 	const [openEye, setOpenEye] = React.useState(false);
 
-	const isPasswordField = (type === 'password');
+	const isPasswordField = type === 'password';
 
 	const getValidatedType = () => {
 		if (isPasswordField) {
@@ -37,6 +37,7 @@ export const Input: React.FC<IInputProps> = props => {
 						'py-[10px] px-4 h-[55px]',
 						error && errorText && 'border-comp-orange',
 						isPasswordField && 'pr-[55px]',
+						disabled && 'bg-comp-mid-gray pointer-events-none bg-opacity-25',
 						className
 					)}
 					type={getValidatedType()}

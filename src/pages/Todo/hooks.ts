@@ -7,11 +7,13 @@ const defaultTodoList = [
 		id: '123',
 		title: 'some title',
 		complete: true,
+		isDeleted: false,
 	},
 	{
 		id: '1234',
 		title: 'some title2',
 		complete: true,
+		isDeleted: false,
 	},
 ];
 
@@ -33,13 +35,21 @@ export const useTodos = () => {
 				id: Date.now(),
 				title: todoTitle,
 				complete: false,
+				isDeleted: false,
 			},
 		]);
 	};
 
 	const deleteTodo = useCallback(
 		(id: string | number) => {
-			setTodos(todos.filter(todo => todo.id !== id));
+			setTodos(
+				todos.map(todo => {
+					if (todo.id === id) {
+						return { ...todo, isDeleted: true };
+					}
+					return todo;
+				})
+			);
 		},
 		[todos]
 	);
@@ -48,8 +58,11 @@ export const useTodos = () => {
 		(id: string | number) => {
 			setTodos(
 				todos.map(todo => {
-					if (todo.id !== id) return todo;
-					return { ...todo, complete: !todo.complete };
+					if (todo.id === id && !todo.isDeleted) {
+						return { ...todo, complete: !todo.complete };
+					}
+
+					return todo;
 				})
 			);
 		},

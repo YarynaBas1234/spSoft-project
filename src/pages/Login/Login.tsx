@@ -8,7 +8,7 @@ import { useLoginFieldsState } from './hooks';
 
 export const Login: React.FC = () => {
 	const [isSubmitted, setIsSubmitted] = React.useState(false);
-	
+
 	const { value: loginValue, onChange: onLoginChange, error: isLoginError } = useLoginFieldsState();
 	const { value: passwordValue, onChange: onPasswordChange, error: isPasswordError } = useLoginFieldsState();
 
@@ -33,9 +33,9 @@ export const Login: React.FC = () => {
 					error={isLoginError && isSubmitted}
 					errorText={REQUIRED_ERROR}
 					name="login"
-					placeholder='Enter Your Login'
-					label='Login'
-					wrapperClassName='h-28'
+					placeholder="Enter Your Login"
+					label="Login"
+					wrapperClassName="h-28"
 				/>
 				<Input
 					value={passwordValue}
@@ -44,11 +44,13 @@ export const Login: React.FC = () => {
 					error={isPasswordError && isSubmitted}
 					errorText={REQUIRED_ERROR}
 					name="password"
-					placeholder='Enter Your Password'
-					label='Password'
-					wrapperClassName='h-28'
+					placeholder="Enter Your Password"
+					label="Password"
+					wrapperClassName="h-28"
 				/>
-				<Button type='submit' className='mt-2'>Login</Button>
+				<Button type="submit" className="mt-2">
+					Login
+				</Button>
 			</form>
 		</Wrapper>
 	);

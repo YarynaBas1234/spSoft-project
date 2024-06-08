@@ -11,7 +11,7 @@ export const Button: React.FC<IButtonProps> = props => {
 			className={twMerge(
 				'bg-comp-blue text-white rounded px-5 py-3 text-xl font-semibold w-full',
 				'hover:bg-comp-dark-blue',
-				'disabled:bg-comp-gray',
+				'disabled:bg-comp-mid-gray',
 				className
 			)}
 			{...restProps}

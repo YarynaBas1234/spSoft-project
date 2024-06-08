@@ -9,7 +9,7 @@ const App: React.FC = () => {
 	return (
 		<Routes>
 			<Route element={<PrivateRoute />}>
-				<Route path='/' element={<Todo />} /> 
+				<Route path={PATH.LOGIN} element={<Todo />} />
 			</Route>
 
 			<Route path={PATH.LOGIN} element={<Login />} />

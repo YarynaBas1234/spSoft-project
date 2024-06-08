@@ -1,15 +1,16 @@
 import React from 'react';
 
-import { Button, Input, Wrapper } from 'components';
+import { Button, Input, Toggle, Wrapper } from 'components';
 import { REQUIRED_ERROR } from 'consts';
 
 import { useTodos } from './hooks';
 import { TodoListComponent } from './components';
 
 export const Todo: React.FC = () => {
-	const [inputValue, setInputValue] = React.useState('');
-	const [error, setError] = React.useState(true);
-	const [isSubmitted, setIsSubmitted] = React.useState(false);
+	const [inputValue, setInputValue] = React.useState<string>('');
+	const [error, setError] = React.useState<boolean>(true);
+	const [isSubmitted, setIsSubmitted] = React.useState<boolean>(false);
+	const [isEditMode, setIsEditMode] = React.useState<boolean>(false);
 
 	const { todos, deleteTodo, toggleTodo, addTodo } = useTodos();
 
@@ -43,22 +44,32 @@ export const Todo: React.FC = () => {
 		invalidateFormState();
 	};
 
+	const toggleEditMode = () => {
+		setIsEditMode(!isEditMode);
+	};
+
 	return (
 		<Wrapper>
-			<h1 className='my-10 text-center text-4xl'>Todo Management</h1>
-			<form className="flex gap-4 items-start h-20" onSubmit={handleSubmit}>
-				<Input
-					value={inputValue}
-					onChange={changeInputValue}
-					error={error && isSubmitted}
-					errorText={REQUIRED_ERROR}
-					placeholder="Enter your task"
-				/>
-				<Button className="w-80" type="submit">
-					Add todo
-				</Button>
+			<h1 className="my-10 text-center text-4xl">Todo Management</h1>
+			<form onSubmit={handleSubmit}>
+				<div className="flex gap-4 items-start h-20">
+					<Input
+						value={inputValue}
+						onChange={changeInputValue}
+						error={error && isSubmitted}
+						errorText={REQUIRED_ERROR}
+						placeholder="Enter your task"
+						disabled={!isEditMode}
+					/>
+					<Button className="w-80" type="submit" disabled={!isEditMode}>
+						Add todo
+					</Button>
+				</div>
+				<div className="flex justify-end">
+					<Toggle checked={isEditMode} onChange={toggleEditMode} label="Edit" />
+				</div>
 			</form>
-			<TodoListComponent todos={todos} deleteTodo={deleteTodo} toggleTodo={toggleTodo} />
+			<TodoListComponent todos={todos} deleteTodo={deleteTodo} toggleTodo={toggleTodo} isEditMode={isEditMode} />
 		</Wrapper>
 	);
 };

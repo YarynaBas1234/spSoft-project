@@ -1,6 +1,6 @@
 import React from 'react';
 import { twMerge } from 'tailwind-merge';
-import { FaCheck } from "react-icons/fa6";
+import { FaCheck } from 'react-icons/fa6';
 
 interface ICheckboxProps
 	extends Omit<React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>, 'type'> {
@@ -22,14 +22,15 @@ export const Checkbox: React.FC<ICheckboxProps> = props => {
 			<div
 				className={twMerge(
 					'w-[30px] h-[30px] flex justify-center items-center rounded mt-[2px]',
-					disabled && 'border border-comp-light-gray',
-					!disabled && (checked ? 'bg-[#0997DD]' : 'border border-[#0997DD]'),
+					disabled && 'border border-comp-mid-gray',
+					!disabled && (checked ? 'bg-comp-light-blue' : 'border border-comp-light-blue'),
+					disabled && (checked ? 'bg-comp-mid-gray' : 'border-comp-mid-gray'),
 					className
 				)}
 			>
-				{checked && <FaCheck color='white' />}
+				{checked && <FaCheck color="white" />}
 			</div>
-			<input style={{ display: 'none' }} {...restProps} type="checkbox" disabled={disabled} checked={checked} />
+			<input style={{ display: 'none' }} type="checkbox" disabled={disabled} checked={checked} {...restProps} />
 			{label && <span>{label}</span>}
 		</label>
 	);
