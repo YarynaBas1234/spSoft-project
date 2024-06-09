@@ -1,18 +1,18 @@
 import React from 'react';
 
 import { Button, Input, Toggle, Wrapper } from 'components';
+import { useAppSelector, useTodoActions } from 'store';
 import { REQUIRED_ERROR } from 'consts';
 
-import { useTodos } from './hooks';
 import { TodoListComponent } from './components';
 
 export const Todo: React.FC = () => {
 	const [inputValue, setInputValue] = React.useState<string>('');
 	const [error, setError] = React.useState<boolean>(true);
 	const [isSubmitted, setIsSubmitted] = React.useState<boolean>(false);
-	const [isEditMode, setIsEditMode] = React.useState<boolean>(false);
+	const { addTodo, toggleEditMode } = useTodoActions();
 
-	const { todos, deleteTodo, toggleTodo, addTodo } = useTodos();
+	const isEditMode = useAppSelector(state => state.todoSlice.isEditMode);
 
 	const changeInputValue: React.ChangeEventHandler<HTMLInputElement> = e => {
 		setInputValue(e.target.value);
@@ -33,20 +33,20 @@ export const Todo: React.FC = () => {
 
 	const handleSubmit: React.FormEventHandler<HTMLFormElement> = e => {
 		e.preventDefault();
-		const todoTitle = inputValue.trim();
+		const title = inputValue.trim();
 
-		if (!todoTitle) {
+		if (!title) {
 			setIsSubmitted(true);
 			return null;
 		}
 
-		addTodo(todoTitle);
+		addTodo(title);
 		invalidateFormState();
 	};
 
-	const toggleEditMode = () => {
-		setIsEditMode(!isEditMode);
-	};
+	React.useEffect(() => {
+		setIsSubmitted(false);
+	}, [isEditMode]);
 
 	return (
 		<Wrapper>
@@ -56,7 +56,7 @@ export const Todo: React.FC = () => {
 					<Input
 						value={inputValue}
 						onChange={changeInputValue}
-						error={error && isSubmitted}
+						error={error && isSubmitted && isEditMode}
 						errorText={REQUIRED_ERROR}
 						placeholder="Enter your task"
 						disabled={!isEditMode}
@@ -69,7 +69,7 @@ export const Todo: React.FC = () => {
 					<Toggle checked={isEditMode} onChange={toggleEditMode} label="Edit" />
 				</div>
 			</form>
-			<TodoListComponent todos={todos} deleteTodo={deleteTodo} toggleTodo={toggleTodo} isEditMode={isEditMode} />
+			<TodoListComponent />
 		</Wrapper>
 	);
 };

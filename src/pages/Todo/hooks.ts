@@ -1,78 +1,16 @@
-import React, { useCallback, useMemo } from 'react';
+import { useAppSelector } from 'store/hooks';
 
-import { ITodo } from 'types';
+export const useTodosState = () => {
+	const todos = useAppSelector(state => state.todoSlice.data);
+	const isEditMode = useAppSelector(state => state.todoSlice.isEditMode);
 
-const defaultTodoList = [
-	{
-		id: '123',
-		title: 'some title',
-		complete: true,
-		isDeleted: false,
-	},
-	{
-		id: '1234',
-		title: 'some title2',
-		complete: true,
-		isDeleted: false,
-	},
-];
+	const validatedTodos = todos.filter(({ isDeleted }) => isEditMode || !isDeleted);
 
-export const useTodos = () => {
-	const [todos, setTodos] = React.useState<ITodo[]>(defaultTodoList);
-
-	const sortedTodos = useMemo(
-		() =>
-			todos.sort(function (x, y) {
-				return Number(x.complete) - Number(y.complete);
-			}),
-		[todos]
-	);
-
-	const addTodo = (todoTitle: string) => {
-		setTodos([
-			...todos,
-			{
-				id: Date.now(),
-				title: todoTitle,
-				complete: false,
-				isDeleted: false,
-			},
-		]);
-	};
-
-	const deleteTodo = useCallback(
-		(id: string | number) => {
-			setTodos(
-				todos.map(todo => {
-					if (todo.id === id) {
-						return { ...todo, isDeleted: true };
-					}
-					return todo;
-				})
-			);
-		},
-		[todos]
-	);
-
-	const toggleTodo = useCallback(
-		(id: string | number) => {
-			setTodos(
-				todos.map(todo => {
-					if (todo.id === id && !todo.isDeleted) {
-						return { ...todo, complete: !todo.complete };
-					}
-
-					return todo;
-				})
-			);
-		},
-		[todos]
-	);
+	const sortedTodos = validatedTodos.sort(function (x, y) {
+		return Number(x.complete) - Number(y.complete);
+	});
 
 	return {
 		todos: sortedTodos,
-		addTodo,
-		deleteTodo,
-		toggleTodo,
 	};
 };

@@ -5,7 +5,7 @@ import { IoMdEyeOff, IoIosEye } from 'react-icons/io';
 interface IInputProps extends React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement> {
 	label?: string;
 	wrapperClassName?: string;
-	type?: 'text' | 'password';
+	type?: 'text' | 'password' | 'email' | 'number';
 	error?: boolean;
 	errorText?: string;
 }

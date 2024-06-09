@@ -3,28 +3,20 @@ import { IoIosClose } from 'react-icons/io';
 import { twMerge } from 'tailwind-merge';
 
 import { Checkbox, ButtonIcon } from 'components';
-import { ITodo } from 'types';
+import { useAppSelector, useTodoActions } from 'store';
 
-interface ITodoListProps {
-	todos: ITodo[];
-	toggleTodo: (id: string | number) => void;
-	deleteTodo: (id: string | number) => void;
-	isEditMode: boolean;
-}
+import { useTodosState } from '../hooks';
 
-export const TodoListComponent: React.FC<ITodoListProps> = memo(props => {
-	const { todos, toggleTodo, deleteTodo, isEditMode } = props;
+export const TodoListComponent: React.FC = memo(() => {
+	const { todos } = useTodosState();
+	const { deleteTodo, toggleTodo } = useTodoActions();
+
+	const isEditMode = useAppSelector(state => state.todoSlice.isEditMode);
 
 	return (
 		<div className="mt-5 flex flex-col gap-3">
 			{todos.map(({ id, complete, title, isDeleted }) => (
-				<div
-					className={twMerge(
-						!isEditMode && isDeleted ? 'hidden' : 'flex gap-4 items-center',
-						isDeleted && 'text-comp-mid-gray'
-					)}
-					key={id}
-				>
+				<div className={twMerge('flex gap-4 items-center', isDeleted && 'text-comp-mid-gray')} key={id}>
 					<Checkbox
 						checked={complete}
 						label={title}
