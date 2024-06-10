@@ -28,7 +28,7 @@ export const Input: React.FC<IInputProps> = props => {
 
 	return (
 		<div className={twMerge('flex flex-col w-full', wrapperClassName)}>
-			{label && <label className="text-xl">{label}</label>}
+			{label && <label className="text-xl mb-1">{label}</label>}
 			<div className="relative flex items-center">
 				<input
 					className={twMerge(
@@ -54,7 +54,7 @@ export const Input: React.FC<IInputProps> = props => {
 					</span>
 				)}
 			</div>
-			{error && errorText && <span className="text-comp-orange">{errorText}</span>}
+			{error && errorText && <span className="text-comp-orange mt-1">{errorText}</span>}
 		</div>
 	);
 };

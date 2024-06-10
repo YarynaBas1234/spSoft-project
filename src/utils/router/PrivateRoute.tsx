@@ -1,11 +1,11 @@
 import React from 'react';
-
-import { PATH } from 'consts';
 import { Navigate, Outlet } from 'react-router-dom';
 
-export const PrivateRoute: React.FC = () => {
-	//TODO: move auth data to redux
-	const auth = true;
+import { PATH } from 'consts';
+import { useAppSelector } from 'store';
 
-	return auth ? <Outlet /> : <Navigate replace to={PATH.LOGIN} />;
+export const PrivateRoute: React.FC = () => {
+	const profile = useAppSelector(state => state.profileSlice.profile);
+
+	return !!profile ? <Outlet /> : <Navigate replace to={PATH.LOGIN} />;
 };

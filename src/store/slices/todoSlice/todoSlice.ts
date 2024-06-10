@@ -1,6 +1,7 @@
 import React from 'react';
 import { PayloadAction, bindActionCreators, createSlice } from '@reduxjs/toolkit';
 import { v4 as uuidv4 } from 'uuid';
+
 import { useAppDispatch } from 'store';
 
 import { defaultTodoList } from './utils';
@@ -41,6 +42,9 @@ export const todoSlice = createSlice({
 		},
 		toggleEditMode: state => {
 			state.isEditMode = !state.isEditMode;
+		},
+		invalidateEditMode: state => {
+			state.isEditMode = false;
 		},
 	},
 });

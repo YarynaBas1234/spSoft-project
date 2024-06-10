@@ -32,5 +32,6 @@ module.exports = {
 		'react/prop-types': 'off',
 		'react/react-in-jsx-scope': 'off',
 		'@typescript-eslint/no-empty-interface': 'off',
+		'no-extra-boolean-cast': 'off',
 	},
 };
